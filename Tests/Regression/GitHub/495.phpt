@@ -5,7 +5,7 @@ GH-495: --filter option for filtering testsuites
 
 $_SERVER['argv'][] = '--no-configuration';
 $_SERVER['argv'][] = '--filter';
-$_SERVER['argv'][] = 'Child1';
+$_SERVER['argv'][] = 'Parent/Child1';
 $_SERVER['argv'][] = 'ParentSuite';
 $_SERVER['argv'][] = dirname(__FILE__).'/495/ParentSuite.php';
 
@@ -24,8 +24,8 @@ There was 1 failure:
 1) OneTest::testSomething
 Failed asserting that false is true.
 
-/Users/gtemchenko/Desktop/Temp/phpunit_my/Tests/Regression/GitHub/495/OneTest.php:9
-/Users/gtemchenko/Desktop/Temp/phpunit_my/Tests/Regression/GitHub/495.php:10
+%s/495/OneTest.php:%i
+%s/GitHub/495.php:%i
 
 FAILURES!
 Tests: 1, Assertions: 1, Failures: 1.
