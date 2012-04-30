@@ -130,6 +130,13 @@ class PHPUnit_Framework_TestSuite implements PHPUnit_Framework_Test, PHPUnit_Fra
     protected $testCase = FALSE;
 
     /**
+     * Parent testsuite
+     *
+     * @var PHPUnit_Framework_TestSuite
+     */
+    public $parent = NULL;
+
+    /**
      * Constructs a new TestSuite:
      *
      *   - PHPUnit_Framework_TestSuite() constructs an empty TestSuite.
@@ -250,6 +257,7 @@ class PHPUnit_Framework_TestSuite implements PHPUnit_Framework_Test, PHPUnit_Fra
 
         if (!$class->isAbstract()) {
             $this->tests[]  = $test;
+            $test->parent = $this;
             $this->numTests = -1;
 
             if ($test instanceof PHPUnit_Framework_TestSuite &&
@@ -711,6 +719,16 @@ class PHPUnit_Framework_TestSuite implements PHPUnit_Framework_Test, PHPUnit_Fra
                         $name = join('::', $tmp);
                     } else {
                         $name = $tmp[1];
+                    }
+                    
+                    $parentTestSuite = $this->parent;
+                    while ($parentTestSuite !== NULL) {
+                        $name = $parentTestSuite->getName() . '/' . $name;
+                        if (isset($parentTestSuite->parent)) {
+                            $parentTestSuite = $parentTestSuite->parent;
+                        } else {
+                            $parentTestSuite = NULL;
+                        }
                     }
 
                     if (preg_match($filter, $name) == 0) {
